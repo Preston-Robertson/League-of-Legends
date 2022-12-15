@@ -1,0 +1,50 @@
+Void Centepede:
+Difficulty to Implement: 9/10
+This will be due to the "tail" mechanic of the champions, having a seperate moving body
+that follows the original, but all interconnected so the same damage across the whole
+champion. These extra components will not minion block champions or minions.
+
+Difficulty to Play: Very
+
+Overview:
+A growing centepede from the void, will use its growing body to protect teammates from
+enemy fire. The centepede will also restrict movement from the enemy team. 
+
+The role of the champion would be Tank and Support.
+
+
+
+ABILITIES:
+Passive:
+Growth;
+Every X minutes VC grows a new component which increases Bonus Health by X%. This
+ability is capped at X minutes.
+Weakness;
+Decreasing armor and magic resist by X (X base + X Armor Scaling + 
+X Magic Resist Scaling).
+
+
+Q:
+Venom Injection; X Cooldown
+The champion will bite the selected champion that damages the enemy for X damage over X
+seconds. During the damage duration, weakness is applied.
+
+
+W:
+Wrap; X Cooldown and X mana per second
+This will be a toggle ability that will last X to Infinite seconds and wrap any champion 
+rooting them until either the timer of the toggle ability ends or X seconds have past; 
+whichever happens first. This ability will also grant the ability to move through walls 
+forthe duration.
+
+
+E:
+Acid Spit; X Cooldown and X mana cost
+Spits acids that damages enemies overtime (X per second + X AP ratio) while inside the
+acid that lasts X seconds, this will also slow by X%
+
+
+R: 
+Harden; X Cooldown X mana cost
+For X seconds VC is effectively stunned, takes X% reduced damage and all components 
+become capable of minion blocking the enemy team. Can be activated during W. 
