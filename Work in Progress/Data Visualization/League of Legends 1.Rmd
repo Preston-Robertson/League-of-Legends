@@ -1,0 +1,158 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# Importing Library
+```{r}
+
+library(pacman)
+library(ggplot2)
+library(glmnet)  
+library(dplyr)   
+library(tidyverse)
+library(caret)
+library(mapplots)
+
+```
+
+# Loading League Data
+```{r}
+
+# PC
+LeagueDF <- read.csv("C:\\Users\\Preston Robertson\\OneDrive - Mississippi State University\\Documents\\Graduate\\League Of Legends\\All datasets\\base_def.csv")
+
+# Laptop
+#LeagueDF <- read.csv("C:\\Users\\prest\\OneDrive - Mississippi State University\\Documents\\Graduate\\League Of Legends\\All datasets\\base_def.csv")
+
+```
+
+
+# Basic Analysis
+
+## Base Data
+```{r}
+
+LeagueDF
+
+```
+
+```{r}
+
+dat <- LeagueDF
+head(dat)
+
+```
+
+
+# Feature Engineering
+
+## For Champ Wheels
+```{r}
+# Feature Engineering
+
+## For Champ Wheels
+
+# Popping "Champ"
+Champ <- dat %>% pull(Champ)
+
+# Removing all not non-integer values
+dat_num <- dat %>% select_if(is.numeric)
+dat_num
+
+# Combining data frames
+champ2 <- data.frame(Champ)
+dat_num2 <- cbind(champ2, dat_num)
+dat_num2
+```
+
+## Aggregating Data
+```{r}
+agg = suppressWarnings(aggregate(dat_num2,
+                by = list(dat_num2$Champ),
+                FUN = mean))
+agg
+
+
+Champion <- agg %>% pull(Group.1)
+
+
+norm <- apply(agg %>% select_if(is.numeric),2,function(x){x/sum(x)})
+norm2 <- data.frame(norm)
+norm3 <- cbind(Champion, norm2)
+norm3
+```
+
+
+```{r}
+
+
+```
+
+
+# Data Visualization
+
+## ...
+```{r}
+
+## Does the Champion have a defining role?
+
+# Resizing Plot
+
+options(repr.plot.width = 5, repr.plot.height = 15)
+
+# Making Plot
+ggplot(data = norm3) +
+  geom_point(mapping = aes(y = Champion, x = GoldEarned, color = Kills > 0.0075))
+
+
+```
+
+
+# Machine Learning Techniques
+
+## Splitting Data
+```{r}
+
+#Changing Name
+dat <- LeagueDF
+
+#Splitting Data into Training and Testing Data
+set.seed(11)
+training.samples <- dat$Win %>%
+  createDataPartition(p = 0.75, list = FALSE)
+train.data  <- dat[training.samples, ]
+train.data = data.frame(train.data)
+test.data <- dat[-training.samples, ]
+test.data = data.frame(test.data)
+
+#Proving the proper split
+SizeOriginal <- nrow(dat)
+SizeTraining <- nrow(train.data)
+SizeTest <- nrow(test.data)
+PercentageTraining <- (SizeTraining/SizeOriginal)*100
+PercentageTest <- (SizeTest/SizeOriginal)*100
+
+sprintf('Percent of Testing Data = %f', PercentageTest)
+sprintf('Percent of Training Data = %f', PercentageTraining)
+
+```
+
+# SVM Gold~Win
+```{r}
+
+#Making the Model
+svmfit = svm(Win ~ ., data = dat, kernel = "radial", cost = 10, scale = FALSE, type = 'C-classification')
+print(svmfit)
+dat.svm<-predict(svmfit,data=dat)
+
+#Mapping the Model
+xgrid = make.grid(x_train)
+
+ygrid = predict(svmfit, xgrid)
+plot(xgrid, col = c("black","red")[as.numeric(ygrid)], pch = 20, cex = .2)
+points(x_train, col = Y , pch = 19)
+points(x_train[svmfit$index,], pch = 5, cex = 2)
+
+```
+
