@@ -1,0 +1,5 @@
+https://developer.riotgames.com/
+
+https://towardsdatascience.com/how-to-use-riot-api-with-python-b93be82dbbd6
+
+http://tercenya.github.io/compendium/etc.html
